@@ -20,6 +20,12 @@ export default function Exercise({ exercise, index, accent, packages }) {
         </button>
       </div>
 
+      {exercise.explanation && (
+        <div className="exercise-explanation" style={{ borderLeftColor: accent }}>
+          {exercise.explanation}
+        </div>
+      )}
+
       <p className="exercise-question">{exercise.question}</p>
 
       {showHint && (
@@ -78,6 +84,17 @@ export default function Exercise({ exercise, index, accent, packages }) {
           color: var(--text);
           margin-bottom: 10px;
           line-height: 1.5;
+        }
+        .exercise-explanation {
+          padding: 12px 16px;
+          background: var(--bg-raised);
+          border-left: 3px solid;
+          border-radius: 0 8px 8px 0;
+          font-size: 13px;
+          color: var(--text-muted);
+          margin-bottom: 12px;
+          line-height: 1.6;
+          white-space: pre-line;
         }
         .exercise-hint {
           padding: 10px 14px;

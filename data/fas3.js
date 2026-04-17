@@ -85,6 +85,7 @@ for i, (true, pred, prob) in enumerate(zip(y_test[:5], y_pred[:5], y_proba)):
       ],
       exercises: [
         {
+          explanation: `Att dela data i träning och test är ett av de viktigaste stegen i ML. Du tränar modellen på träningsdata och utvärderar den på testdata — som modellen aldrig sett.\n\ntrain_test_split() från scikit-learn gör detta automatiskt:\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size=0.3,    # 30% till test\n    random_state=42   # för reproducerbarhet\n)\n\nX innehåller features (kolumnerna), y innehåller svaren (vad vi vill förutsäga).`,
           question: "Dela upp data i 70% träning, 30% test med scikit-learn. Skriv ut storlekarna.",
           starter: `import numpy as np
 from sklearn.model_selection import train_test_split
@@ -207,6 +208,7 @@ for feature, vikt in zip(X.columns, model.coef_):
       ],
       exercises: [
         {
+          explanation: `scikit-learn följer alltid samma mönster för alla modeller:\n1. Skapa modellen:  model = LinearRegression()\n2. Träna:           model.fit(X_train, y_train)\n3. Prediktera:      model.predict(X_test)\n\nFör linjär regression y = kx + m lagrar modellen:\n- model.coef_       →  lutningen k (som en lista, en per feature)\n- model.intercept_  →  konstanten m\n\nObs: X måste ha form (n_examples, n_features) — dvs. 2D array.`,
           question: "Träna en LinearRegression på y = 3x - 2 + brus. Skriv ut lutning och intercept.",
           starter: `import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -236,6 +238,7 @@ print(f"Intercept: {model.intercept_:.2f}")`,
           expected: "Lutning: 3.00\nIntercept: -2.00",
         },
         {
+          explanation: `Två vanliga mått för regression:\n\nRMSE (Root Mean Squared Error) — genomsnittligt fel i samma enhet som y:\nrmse = np.sqrt(mean_squared_error(y_test, y_pred))\nLägre är bättre. 0 = perfekt.\n\nR² (R-kvadrat) — hur stor andel av variationen modellen förklarar:\nr2 = r2_score(y_test, y_pred)\n1.0 = perfekt, 0 = inte bättre än medelvärdet, negativ = sämre än medelvärdet.\n\nKom ihåg: Träna på X_train/y_train, utvärdera på X_test/y_test.`,
           question: "Träna regression och beräkna RMSE och R² på testdata.",
           starter: `import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -388,6 +391,7 @@ plt.show()`,
       ],
       exercises: [
         {
+          explanation: `Iris är ett klassiskt dataset med 150 blommor, 3 sorter och 4 mätningar per blomma.\nload_iris() ger tillbaka ett objekt med .data (X) och .target (y).\n\nLogistic Regression passar för klassificering trots namnet — den ger sannolikheter per klass.\n\nMönster:\nmodel = LogisticRegression(max_iter=200)  # öka max_iter om den ej konvergerar\nmodel.fit(X_train, y_train)\nacc = accuracy_score(y_test, model.predict(X_test))\n\naccuracy_score = andel rätt prediktioner (0 till 1).`,
           question: "Träna en Logistic Regression på iris och skriv ut accuracy.",
           starter: `from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -416,6 +420,7 @@ print(f"Accuracy: {acc:.2%}")`,
           expected: "Accuracy: 100.00%",
         },
         {
+          explanation: `Cross-validation är ett mer tillförlitligt sätt att utvärdera modeller än ett enstaka train/test-split.\n\nVid 5-fold CV delas data i 5 delar. Modellen tränas 5 gånger — varje gång används en annan del som testset.\n\ncross_val_score(model, X, y, cv=5) returnerar en array med 5 scores.\n.mean() ger genomsnittet.\n\nRandom Forest = många Decision Trees som röstar — oftast bättre och mer robust än ett enskilt träd.`,
           question: "Jämför Decision Tree och Random Forest med 5-fold cross validation.",
           starter: `from sklearn.datasets import load_iris
 from sklearn.model_selection import cross_val_score
@@ -530,6 +535,7 @@ print("Välj K där kurvan börjar plana ut ('armbågen')")`,
       ],
       exercises: [
         {
+          explanation: `K-Means delar data i K grupper (kluster) baserat på likhet.\n\nAnvändning med scikit-learn:\nkm = KMeans(n_clusters=4, random_state=42, n_init=10)\nlabels = km.fit_predict(X)   # returnerar klustertillhörighet per punkt\n\nlabels är en array med värden 0, 1, 2, ..., K-1 — en per datapunkt.\n\nnp.bincount(labels) räknar hur många gånger varje klusteretikett förekommer:\nnp.bincount([0,0,1,2,1])  →  [2, 2, 1]  (2 st klass 0, 2 st klass 1, 1 st klass 2)`,
           question: "Kör K-Means med K=4 på blob-data och skriv ut antal punkter per kluster.",
           starter: `import numpy as np
 from sklearn.datasets import make_blobs
@@ -647,6 +653,7 @@ print("\\nPipeline ser till att skalningen görs rätt per fold!")`,
       ],
       exercises: [
         {
+          explanation: `Skalning är viktigt för algoritmer som SVM, linjär regression och neurala nätverk — de är känsliga för att features har olika storlekar.\n\nStandardScaler gör varje kolumn till medel=0 och std=1:\n1. scaler = StandardScaler()\n2. X_scaled = scaler.fit_transform(X)\n\nfit_transform() lär sig medel och std från data, och transformerar sedan.\n\nViktig regel: Anpassa (fit) endast på träningsdata, transformera sedan testdata separat med .transform() — aldrig fit på testdata!`,
           question: "Skala denna data så att varje kolumn har medel=0 och std=1.",
           starter: `import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -673,6 +680,7 @@ print(f"Std: {X_scaled.std(axis=0).round(3)}")`,
           expected: "[[-1.342 -1.342]\n [-0.447 -0.447]\n [ 0.447  0.447]\n [ 1.342  1.342]]\nMedel: [0. 0.]\nStd: [1. 1.]",
         },
         {
+          explanation: `ML-modeller kan inte hantera text direkt — kategoriska värden måste om till siffror.\n\nOne-hot encoding skapar en ny kolumn per kategori med 0 eller 1:\n\nfärg: "röd" → färg_röd=1, färg_blå=0, färg_grön=0\nfärg: "blå" → färg_röd=0, färg_blå=1, färg_grön=0\n\nMed Pandas:\ndf_encoded = pd.get_dummies(df, columns=["färg"], dtype=int)\n\ndtype=int ger 0/1 istället för True/False.`,
           question: "Konvertera kategoriska kolumner till one-hot med pd.get_dummies.",
           starter: `import pandas as pd
 
@@ -744,6 +752,7 @@ print(f"Test-score: {grid.score(X_test, y_test):.3f}")`,
       ],
       exercises: [
         {
+          explanation: `Hyperparametrar är inställningar du sätter innan träning — de lärs inte av modellen.\n\nGridSearchCV provar systematiskt alla kombinationer och väljer bäst via cross-validation:\n\nparam_grid = {"C": [0.01, 0.1, 1, 10]}  # dict med parameter: [värden att prova]\ngrid = GridSearchCV(model, param_grid, cv=5)\ngrid.fit(X, y)\n\nEfter fit:\ngrid.best_params_   →  de bästa inställningarna\ngrid.best_score_    →  bästa CV-score\n\nC i Logistic Regression styr hur mycket modellen tillåter sig att overfitta — lågt C = mer regularisering.`,
           question: "Använd GridSearchCV för att hitta bästa 'C' för LogisticRegression (prova C=[0.01, 0.1, 1, 10]).",
           starter: `from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression

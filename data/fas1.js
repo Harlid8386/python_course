@@ -75,6 +75,7 @@ print(färger_a - färger_b)  # bara i a`,
       ],
       exercises: [
         {
+          explanation: `En list comprehension låter dig skapa en ny lista i en enda rad istället för en vanlig for-loop.\n\nSyntax:  [uttryck for element in lista if villkor]\n\nExempel:\ntal = [1, 2, 3, 4, 5]\njämna = [t for t in tal if t % 2 == 0]  → [2, 4]\n\nlen(s) returnerar antalet tecken i strängen s — använd det som villkor.`,
           question: "Skapa en list comprehension som returnerar bara ord med fler än 3 bokstäver från listan.",
           starter: `ord = ["ai", "python", "ml", "data", "neuralt", "gpu"]
 # Din kod här:
@@ -88,6 +89,7 @@ print(långa)`,
           expected: "['python', 'data', 'neuralt']",
         },
         {
+          explanation: `En dict comprehension fungerar precis som list comprehension men skapar en dictionary (nyckel:värde-par).\n\nSyntax:  {nyckel: värde for element in lista}\n\nExempel:\n{x: x**2 for x in range(3)}  →  {0: 0, 1: 1, 2: 4}\n\nrange(1, 6) ger talen 1, 2, 3, 4, 5. Kvadraten av x skrivs x**2.`,
           question: "Skapa en dictionary som mappar varje tal 1-5 till dess kvadrat.",
           starter: `# Din kod här:
 kvadrater = 
@@ -99,6 +101,7 @@ print(kvadrater)`,
           expected: "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
         },
         {
+          explanation: `Ett set är en samling unika värden. Med set() kan du enkelt hitta gemensamma element.\n\nOperatorer för sets:\n  &  →  gemensamma element (snitt)\n  |  →  alla unika element (union)\n  -  →  element bara i det första setet\n\nExempel:\nset([1,2,2,3]) & set([2,3,4])  →  {2, 3}`,
           question: "Hitta gemensamma element i två listor (utan dubbletter).",
           starter: `lista_a = [1, 2, 3, 4, 5, 3, 2]
 lista_b = [4, 5, 6, 7, 8, 5]
@@ -114,6 +117,7 @@ print(sorted(gemensamma))`,
           expected: "[4, 5]",
         },
         {
+          explanation: `För att räkna förekomster kan du använda en dictionary som räknare.\n\nTricket är dict.get(nyckel, standardvärde) — om nyckeln inte finns returneras standardvärdet istället för ett fel.\n\nExempel:\nräknare = {}\nfor bokstav in "hej":\n    räknare[bokstav] = räknare.get(bokstav, 0) + 1\n→  {'h': 1, 'e': 1, 'j': 1}`,
           question: "Räkna förekomster av varje bokstav i ordet 'programmering'.",
           starter: `ord = "programmering"
 # Din kod här:
@@ -205,6 +209,7 @@ print(resultat)`,
       ],
       exercises: [
         {
+          explanation: `*args låter en funktion ta emot hur många argument som helst. Inne i funktionen är de en tuple.\n\nExempel:\ndef summera(*tal):\n    return sum(tal)\n\nsummera(1, 2, 3)   →  6\nsummera(10, 20)    →  30\n\nAnvändbara inbyggda funktioner: min(), max(), sum(), len().`,
           question: "Skriv en funktion analysera(*tal) som returnerar en dict med 'min', 'max' och 'medel'.",
           starter: `def analysera(*tal):
     # Din kod här:
@@ -223,6 +228,7 @@ print(analysera(10, 20, 30, 40, 50))`,
           expected: "{'min': 10, 'max': 50, 'medel': 30.0}",
         },
         {
+          explanation: `map() applicerar en funktion på varje element i en lista.\nlambda är ett sätt att skriva en kort funktion på en rad.\n\nExempel:\ndubbla = lambda x: x * 2\nlist(map(dubbla, [1, 2, 3]))  →  [2, 4, 6]\n\nEller direkt:\nlist(map(lambda x: x * 2, [1, 2, 3]))  →  [2, 4, 6]\n\nObs: map() returnerar ett map-objekt — wrap:a det med list() för att se resultatet.`,
           question: "Använd map() och lambda för att konvertera Celsius till Fahrenheit (F = C*9/5 + 32).",
           starter: `celsius = [0, 20, 37, 100]
 # Din kod här:
@@ -236,6 +242,7 @@ print(fahrenheit)`,
           expected: "[32.0, 68.0, 98.6, 212.0]",
         },
         {
+          explanation: `sorted() sorterar en lista. Med key= kan du ange vad den ska sortera efter.\n\nFör att sortera en lista av dicts anger du en lambda som hämtar värdet du vill sortera på:\n\nExempel:\npersoner = [{"namn": "Bo", "ålder": 30}, {"namn": "Anna", "ålder": 25}]\nsorted(personer, key=lambda p: p["ålder"])  →  Anna, Bo\n\nFunktionen tar nyckel som parameter med default-värdet "namn".`,
           question: "Sortera en lista av dicts efter en valfri nyckel (default 'namn').",
           starter: `def sortera(personer, nyckel="namn"):
     # Din kod här:
@@ -262,6 +269,7 @@ for p in sortera(folk, "ålder"):
           expected: "{'namn': 'Alice', 'ålder': 25}\n{'namn': 'Charlie', 'ålder': 30}\n{'namn': 'Bob', 'ålder': 35}",
         },
         {
+          explanation: `Rekursion innebär att en funktion anropar sig själv. Det kräver alltid:\n1. Ett basfall — när ska den sluta?\n2. Ett rekursivt steg — hur reduceras problemet?\n\nFakultet: 5! = 5 × 4 × 3 × 2 × 1 = 120\nDet kan skrivas som: 5 × fakultet(4)\n\nMönster:\ndef fakultet(n):\n    if n <= 1:        # basfall\n        return 1\n    return n * fakultet(n - 1)  # rekursivt steg`,
           question: "Skriv en rekursiv funktion fakultet(n).",
           starter: `def fakultet(n):
     # Din kod här:
@@ -363,6 +371,7 @@ print(f"Första lagret: {data['lager'][0]} neuroner")`,
       ],
       exercises: [
         {
+          explanation: `csv.DictReader läser CSV-data och gör varje rad till en dictionary med kolumnnamnen som nycklar.\n\nExempel:\ndata = "namn,poäng\\nAlice,92\\nBob,78"\nreader = csv.DictReader(StringIO(data))\nfor rad in reader:\n    print(rad["namn"], rad["poäng"])  # "Alice" "92"\n\nObs: Alla värden är strängar! Konvertera med int() eller float() för att jämföra tal.`,
           question: "Parsa följande CSV-data och returnera en lista av elever som har >= 85 poäng.",
           starter: `import csv
 from io import StringIO
@@ -396,6 +405,7 @@ print(godkända)`,
           expected: "['Alice', 'Charlie', 'Erik']",
         },
         {
+          explanation: `JSON är ett textformat för att lagra och skicka data. Python har inbyggt stöd via json-modulen.\n\njson.dumps(data)   →  omvandlar Python-objekt till JSON-sträng\njson.loads(text)   →  omvandlar JSON-sträng tillbaka till Python-objekt\n\nExempel:\nimport json\ndata = {"namn": "Anna", "ålder": 25}\ntext = json.dumps(data)       →  '{"namn": "Anna", "ålder": 25}'\njson.loads(text)["namn"]      →  "Anna"`,
           question: "Skapa en JSON-sträng från en lista av 3 böcker och läs sedan tillbaka titlarna.",
           starter: `import json
 
@@ -514,6 +524,7 @@ for data, e in [([], 10), ([1,2,3], 0), ([1,2,3], 5)]:
       ],
       exercises: [
         {
+          explanation: `try/except fångar fel som annars skulle krascha programmet.\n\nMönster:\ntry:\n    # kod som kan misslyckas\nexcept FelTyp:\n    # vad som händer vid fel\n\nint("42")   →  42  (fungerar)\nint("hej")  →  ValueError (kraschar utan try/except)\n\nDu kan returnera None som ett "inget värde"-signal när konverteringen misslyckas.`,
           question: "Skriv safe_int(s) som försöker konvertera s till int, eller returnerar None vid fel.",
           starter: `def safe_int(s):
     # Din kod här:
@@ -535,6 +546,7 @@ print(safe_int("3.14"))`,
           expected: "42\nNone\nNone",
         },
         {
+          explanation: `Du kan skapa egna feltyper (exceptions) genom att ärva från Exception.\n\nclass MittFel(Exception):\n    pass\n\nraise MittFel("Beskrivning")  →  kastar felet\n\nFör att kolla om ett värde är ett tal, använd isinstance():\nisinstance(42, (int, float))    →  True\nisinstance("hej", (int, float)) →  False`,
           question: "Skapa custom exception DataError och en funktion som validerar att en lista inte är tom och bara innehåller tal.",
           starter: `class DataError(Exception):
     pass
@@ -666,6 +678,7 @@ print(f"v1 + v2 = {v1 + v2}")`,
       ],
       exercises: [
         {
+          explanation: `En klass är en mall för objekt. __init__ körs automatiskt när du skapar ett objekt och sätter upp dess data.\n\nself refererar alltid till objektet självt.\n\nMönster:\nclass Bil:\n    def __init__(self, märke, hastighet):\n        self.märke = märke        # spara data på objektet\n        self.hastighet = hastighet\n    \n    def info(self):\n        return f"{self.märke}: {self.hastighet} km/h"\n\nbil = Bil("Volvo", 130)\nprint(bil.info())  →  "Volvo: 130 km/h"`,
           question: "Skapa klass Elev med namn, betyg (lista), och metoder medel() och högsta().",
           starter: `class Elev:
     # Din kod här:
@@ -694,6 +707,7 @@ print(f"Högsta: {elev.högsta()}")`,
           expected: "Namn: Anna\nMedel: 87.6\nHögsta: 95",
         },
         {
+          explanation: `Arv låter en klass ärva alla metoder och attribut från en annan klass.\n\nclass Barn(Förälder):\n    def __init__(self, ...):\n        super().__init__(...)  # kör förälderns __init__ först\n        # lägg sedan till barnets egna attribut\n\nsuper() refererar till föräldraklassen. Utan det missar du förälderns setup.`,
           question: "Skapa subklass AIElev som ärver Elev och lägger till specialisering.",
           starter: `class Elev:
     def __init__(self, namn, betyg):
@@ -726,6 +740,7 @@ print(f"{e.namn} ({e.specialisering}): medel {e.medel()}")`,
           expected: "Erik (Deep Learning): medel 91.0",
         },
         {
+          explanation: `En metod i en klass kan läsa och ändra objektets data via self.\n\nKomma ihåg:\n- self.saldo är kontobalansen lagrad på objektet\n- += lägger till, -= drar ifrån\n- Använd en if-sats för att kontrollera att uttaget är giltigt innan du drar av\n\nOm beloppet är för stort: skriv ut ett meddelande och gör ingenting (return False).`,
           question: "Skapa klass Konto med saldo, metoder sätt_in() och ta_ut() (får inte gå under 0).",
           starter: `class Konto:
     # Din kod här:

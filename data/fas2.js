@@ -105,6 +105,7 @@ print(normaliserad)`,
       ],
       exercises: [
         {
+          explanation: `En boolean-mask är en array av True/False-värden som du kan använda för att filtrera en annan array.\n\nExempel:\na = np.array([1, 2, 3, 4, 5])\nmask = a > 2        →  [False, False, True, True, True]\na[mask]             →  [3, 4, 5]\n\nKombinera villkor med & (OCH) eller | (ELLER) — inte 'and'/'or':\na[(a > 2) & (a % 2 == 0)]  →  [4]\n\nnp.arange(1, 21) skapar arrayen [1, 2, 3, ..., 20].`,
           question: "Skapa en array med tal 1-20, och använd boolean-mask för att få alla tal som är både jämna och > 10.",
           starter: `import numpy as np
 
@@ -122,6 +123,7 @@ print(resultat)`,
           expected: "[12 14 16 18 20]",
         },
         {
+          explanation: `Normalisering skalar om data så att det hamnar i ett bestämt intervall — vanligast är [0, 1].\n\nFormeln för min-max normalisering:\nnormaliserad = (x - min) / (max - min)\n\nMed NumPy fungerar detta automatiskt element-vis på hela arrayen:\n(data - data.min()) / (data.max() - data.min())\n\nNormalisering används i nästan alla ML-modeller för att skala features lika.`,
           question: "Normalisera en array så att värdena hamnar mellan 0 och 1 (min-max normalisering).",
           starter: `import numpy as np
 
@@ -140,6 +142,7 @@ print(normaliserad)`,
           expected: "[0.  0.2 0.4 0.6 0.8 1. ]",
         },
         {
+          explanation: `En identitetsmatris har 1:or längs diagonalen och 0:or överallt annars. Den är viktig i linjär algebra.\n\nnp.eye(n) skapar en n×n identitetsmatris:\nnp.eye(3)\n→  [[1., 0., 0.],\n    [0., 1., 0.],\n    [0., 0., 1.]]\n\nMultiplicera med en skalär för att skala diagonalvärdena:\nnp.eye(3) * 5\n→  [[5., 0., 0.],\n    [0., 5., 0.],\n    [0., 0., 5.]]`,
           question: "Skapa en 5x5 matris med identitetsmatrisen multiplicerad med 3 på diagonalen.",
           starter: `import numpy as np
 
@@ -155,6 +158,7 @@ print(m)`,
           expected: "[[3. 0. 0. 0. 0.]\n [0. 3. 0. 0. 0.]\n [0. 0. 3. 0. 0.]\n [0. 0. 0. 3. 0.]\n [0. 0. 0. 0. 3.]]",
         },
         {
+          explanation: `Det euklidiska avståndet är det "raka" avståndet mellan två punkter — som Pythagoras sats i 3D.\n\nFormeln: avstånd = √((x₁-x₂)² + (y₁-y₂)² + (z₁-z₂)²)\n\nMed NumPy kan du beräkna det i en rad:\n1. Subtrahera punkterna: p1 - p2\n2. Kvadrera varje komponent: ** 2\n3. Summera: np.sum(...)\n4. Ta roten: np.sqrt(...)\n\nAlternativt: np.linalg.norm(p1 - p2) gör allt på en gång.`,
           question: "Beräkna euklidiskt avstånd mellan två 3D-punkter med NumPy.",
           starter: `import numpy as np
 
@@ -286,6 +290,7 @@ print(df[["namn", "lön_i_kkr"]])`,
       ],
       exercises: [
         {
+          explanation: `I Pandas filtrerar du rader med villkor inom hakparenteser:\ndf[df["kolumn"] > värde]\n\nFör att kombinera flera villkor — använd & (OCH) eller | (ELLER), och sätt varje villkor i parenteser:\ndf[(df["pris"] < 1000) & (df["lager"] > 5)]\n\nObs: Använd & istället för 'and' — det funkar element-vis på hela kolumnen.`,
           question: "Skapa en DataFrame med 5 produkter (namn, pris, lager). Filtrera fram de som kostar < 500 OCH har > 0 i lager.",
           starter: `import pandas as pd
 
@@ -313,6 +318,7 @@ print(resultat)`,
           expected: "      namn  pris  lager\n1      Mus   250     20\n4  Headset   450     12",
         },
         {
+          explanation: `groupby() delar upp DataFramen i grupper, ungefär som "GROUP BY" i SQL.\n\nMönster:\ndf.groupby("kolumn")["värde"].aggregeringsfunktion()\n\nExempel:\ndf.groupby("stad")["lön"].mean()   →  medellön per stad\ndf.groupby("stad")["lön"].sum()    →  totallön per stad\n\nSortera resultatet med .sort_values():\n.sort_values(ascending=False)  →  högst först`,
           question: "Gruppera en DataFrame efter 'stad' och beräkna medel-lön per stad, sorterat från högst till lägst.",
           starter: `import pandas as pd
 
@@ -338,6 +344,7 @@ print(resultat)`,
           expected: "stad\nGöteborg    57000.0\nSthlm       52666.666667\nMalmö       48000.0\nName: lön, dtype: float64",
         },
         {
+          explanation: `.apply() kör en funktion på varje värde i en kolumn och returnerar resultaten som en ny kolumn.\n\nMed lambda:\ndf["ny_kolumn"] = df["gammal_kolumn"].apply(lambda x: ... )\n\nExempel — dela upp i kategorier:\ndf["storlek"] = df["vikt"].apply(lambda x: "Stor" if x > 100 else "Liten")\n\nDu kan också använda en if/else direkt i lambda-uttrycket.`,
           question: "Lägg till en kolumn 'kategori' som är 'Hög' om lön > 50000, annars 'Låg'.",
           starter: `import pandas as pd
 
@@ -448,6 +455,7 @@ plt.show()`,
       ],
       exercises: [
         {
+          explanation: `Grundmönstret i Matplotlib:\n1. Beräkna x-värdena med np.linspace(start, slut, antal_punkter)\n2. Beräkna y-värdena matematiskt\n3. Rita med plt.plot(x, y)\n4. Lägg till titel, etiketter och rutnät\n\nExempel:\nx = np.linspace(0, 10, 100)\ny = x * 2\nplt.plot(x, y)\nplt.title("Titel")\nplt.xlabel("x")\nplt.grid(True)\nplt.show()`,
           question: "Plotta funktionen y = x² - 4x + 3 för x mellan -2 och 6, med snyggt rutnät och titel.",
           starter: `import matplotlib.pyplot as plt
 import numpy as np
@@ -474,6 +482,7 @@ plt.show()`,
           expected: "Plot visas nedan",
         },
         {
+          explanation: `Ett histogram visar hur data fördelar sig — hur många värden faller inom varje intervall.\n\nnp.random.randn(n) ger n slumpade tal med medel=0 och std=1.\nFör att flytta medelvärdet och skala spridningen:\ndata = np.random.randn(500) * std + medel\n\nRita histogram:\nplt.hist(data, bins=antal_intervall)\n\nFler bins = finare upplösning. 20-30 är vanligt för 500 datapunkter.`,
           question: "Skapa ett histogram av 500 slumpade normalfördelade tal (medel=50, std=10) med 25 bins.",
           starter: `import matplotlib.pyplot as plt
 import numpy as np
@@ -585,6 +594,7 @@ print(f"Förutspådd klass: {np.argmax(sannolikheter)}")`,
       ],
       exercises: [
         {
+          explanation: `Cosinus-likhet mäter vinkeln mellan två vektorer — 1.0 betyder exakt samma riktning, 0 betyder vinkelrät.\n\nFormeln:\ncos_sim = dot(a, b) / (||a|| × ||b||)\n\nMed NumPy:\n- np.dot(a, b)           →  dot-produkt\n- np.linalg.norm(v)      →  vektorns längd (||v||)\n\nResultat 1.0 = helt lika riktning, 0 = ingen likhet, -1 = motsatt riktning.\nAnvänds mycket i NLP för att jämföra texters "mening" som vektorer.`,
           question: "Beräkna cosinus-likheten mellan två vektorer (mått på hur lika riktning de har).",
           starter: `import numpy as np
 
@@ -605,6 +615,7 @@ print(f"Cosinus-likhet: {cos_sim:.3f}")`,
           expected: "Cosinus-likhet: 1.000",
         },
         {
+          explanation: `Gradient descent är algoritmen som tränar neurala nätverk. Den hittar minimum av en funktion genom att följa lutningen nedåt.\n\nIde:\n- Gradienten (derivatan) pekar uppåt i riktning mot starkast ökning\n- Gå ett litet steg i MOTSATT riktning\n- Upprepa tills du hittar minimum\n\nFormeln: x_ny = x - learning_rate × gradient\n\nFör f(x) = (x-3)² + 2 är derivatan f'(x) = 2(x-3).\nMinimum ligger vid x=3 (där f'(x)=0).`,
           question: "Implementera gradient descent för att hitta minimum av f(x) = (x-3)² + 2. Startpunkt x=0.",
           starter: `import numpy as np
 
@@ -628,6 +639,7 @@ print(f"Minimum ungefär vid x={x:.3f}")`,
           expected: "Minimum ungefär vid x=3.000",
         },
         {
+          explanation: `Softmax omvandlar råa poäng (logits) till sannolikheter som summerar till 1.0.\n\nFormeln:\nsoftmax(xᵢ) = e^xᵢ / Σ e^xⱼ\n\nMed NumPy:\nexp = np.exp(logits)\nreturn exp / exp.sum()\n\nTrick för numerisk stabilitet: subtrahera max-värdet först så att exp() inte spränger.\nnp.exp(logits - np.max(logits))\n\nAnvänds i sista lagret av klassificeringsnätverk.`,
           question: "Implementera softmax-funktionen och testa den på logits [1.0, 2.0, 3.0].",
           starter: `import numpy as np
 
