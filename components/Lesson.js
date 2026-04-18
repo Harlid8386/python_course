@@ -56,6 +56,11 @@ export default function Lesson({ lesson, accent, packages }) {
             {lesson.examples.map((ex, i) => (
               <div key={i} className="example">
                 <h3 className="example-title">{ex.title}</h3>
+                {ex.explanation && (
+                  <div className="example-explanation" style={{ borderLeftColor: accent }}>
+                    {ex.explanation}
+                  </div>
+                )}
                 <PythonEditor initialCode={ex.code} packages={packages} />
               </div>
             ))}
@@ -160,6 +165,17 @@ export default function Lesson({ lesson, accent, packages }) {
           font-weight: 600;
           color: var(--text);
           margin-bottom: 8px;
+        }
+        .example-explanation {
+          padding: 12px 16px;
+          background: var(--bg-card);
+          border-left: 3px solid;
+          border-radius: 0 8px 8px 0;
+          font-size: 14px;
+          color: var(--text-muted);
+          margin-bottom: 12px;
+          line-height: 1.6;
+          white-space: pre-line;
         }
       `}</style>
     </div>
